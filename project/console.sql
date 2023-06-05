@@ -1,0 +1,44 @@
+set schema FN3MI0700050;
+
+CREATE TABLE Client
+(
+  phone_number VARCHAR(20) NOT NULL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  address VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE PizzaProduct
+(
+  name VARCHAR(100) NOT NULL PRIMARY KEY,
+  weight DECIMAL(10, 2) CHECK(weight > 0) NOT NULL,
+  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL
+);
+
+CREATE TABLE Pizza
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL,
+  weight DECIMAL(10, 2) CHECK(weight > 0) NOT NULL,
+  product_name VARCHAR(100) NOT NULL,
+  FOREIGN KEY (product_name) REFERENCES PizzaProduct(name)
+);
+
+CREATE TABLE Drink
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL
+);
+
+CREATE TABLE Order
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL,
+  client_phone_number VARCHAR(20) NOT NULL,
+  FOREIGN KEY (client_phone_number) REFERENCES Client(phone_number),
+  pizza_id INT,
+  FOREIGN KEY (pizza_id) REFERENCES Pizza(id),
+  drink_id INT,
+  FOREIGN KEY (drink_id) REFERENCES Drink(id)
+);
