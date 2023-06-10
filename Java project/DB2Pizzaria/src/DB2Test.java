@@ -15,9 +15,8 @@ public void openConnection()
 // Step 1: Load IBM DB2 JDBC driver
 	try
 	{
-	  DriverManager.registerDriver(new com.ibm.db2.jcc.DB2Driver());
- 	}
- 
+		DriverManager.registerDriver(new com.ibm.db2.jcc.DB2Driver());
+	}
 	catch(Exception cnfex)
 	{
 		System.out.println("Problem in loading or registering IBM DB2 JDBC driver");
@@ -30,7 +29,6 @@ public void openConnection()
 	connection = DriverManager.getConnection("jdbc:db2://62.44.108.24:50000/SAMPLE", "db2admin", "db2admin");
 	statement = connection.createStatement();
 	}
-	            
 	catch(SQLException s)
 	{
 		s.printStackTrace();
@@ -50,15 +48,14 @@ public void closeConnection()
 			connection.close();
 		}
 	}
-	       
 	catch (SQLException s)
 	{
 	s.printStackTrace();
 	}
-	    
 }
 
-public void select(String stmnt, int column) {
+public void select(String stmnt, int column)
+{
     try
 	{
         resultSet = statement.executeQuery(stmnt);
@@ -77,7 +74,6 @@ public void select(String stmnt, int column) {
         System.out.println("Result output \n");
         System.out.println("---------------------------------- \n");
         System.out.println(result);
-        
     }
     catch (SQLException s)
     {
@@ -118,22 +114,23 @@ public static void main(String[] args)
 {
 	DB2Test db2Obj = new DB2Test();
 	String stmnt = "";
+	int columnsToPrint = 10;
     
 	db2Obj.openConnection();
 	
-	stmnt = "SELECT * FROM FN3MI0700050.PIZZAORDERSVIEW";
-	
-	db2Obj.select(stmnt, 8);
-	
-	/*stmnt = " INSERT INTO DB2MOVIE.STARSIN(MOVIETITLE, MOVIEYEAR, STARNAME)"
-     	  + " VALUES ('" + title + "','" + year + "','" + star + "')";
-    
+	stmnt = "SELECT * FROM FN3MI0700050.PIZZAORDERSVIEW ORDER BY ORDER_ID";
+	db2Obj.select(stmnt, columnsToPrint);
+
+	String nameDrink = "Java";
+	double weightDrink = 0.4;
+	double priceDrink = 4.99;
+	stmnt = "INSERT INTO FN3MI0700050.DRINK(NAME, WEIGHT, PRICE)"
+     	  + " VALUES ('" + nameDrink + "','" + weightDrink + "','" + priceDrink + "')";
 	db2Obj.insert(stmnt);
-	
-	stmnt = "DELETE FROM DB2MOVIE.STARSIN WHERE MOVIETITLE = " + "'" + title + "' ";
-	
+
+	String pizzaNameToDelete = "Olives";
+	stmnt = "DELETE FROM FN3MI0700050.PIZZAPRODUCT WHERE NAME = " + "'" + pizzaNameToDelete + "' ";
 	db2Obj.delete(stmnt);
-	 */
 	
 	db2Obj.closeConnection();
 }

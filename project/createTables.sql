@@ -2,33 +2,32 @@ set schema FN3MI0700050;
 
 CREATE TABLE Client
 (
-  phone_number VARCHAR(20) NOT NULL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  address VARCHAR(200) NOT NULL
+  phone_number VARCHAR(12) NOT NULL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  address VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE PizzaProduct
 (
-  name VARCHAR(100) NOT NULL PRIMARY KEY,
-  weight DECIMAL(10, 2) CHECK(weight > 0) NOT NULL,
-  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL
+  name VARCHAR(30) NOT NULL PRIMARY KEY,
+  weight DECIMAL(10,2) CHECK (weight >= 0) NOT NULL,
+  price DECIMAL(10, 2) CHECK (price >= 0) NOT NULL
 );
 
 CREATE TABLE Pizza
 (
   id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 0 INCREMENT BY 1) PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL,
-  weight DECIMAL(10, 2) CHECK(weight > 0) NOT NULL,
-  product_name VARCHAR(100) NOT NULL,
-  FOREIGN KEY (product_name) REFERENCES PizzaProduct(name)
+  name VARCHAR(50) NOT NULL,
+  price DECIMAL(10, 2) CHECK(price >= 0) NOT NULL,
+  weight DECIMAL(10, 2) CHECK(weight >= 0) NOT NULL
 );
 
 CREATE TABLE Drink
 (
   id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 0 INCREMENT BY 1) PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  price DECIMAL(10, 2) CHECK(price > 0) NOT NULL
+  name VARCHAR(30) NOT NULL,
+  weight DECIMAL(10, 2) CHECK(WEIGHT >= 0) NOT NULL,
+  price DECIMAL(10, 2) CHECK(price >= 0) NOT NULL
 );
 
 CREATE TABLE Order
@@ -40,5 +39,7 @@ CREATE TABLE Order
   pizza_id INT,
   FOREIGN KEY (pizza_id) REFERENCES Pizza(id),
   drink_id INT,
-  FOREIGN KEY (drink_id) REFERENCES Drink(id)
+  FOREIGN KEY (drink_id) REFERENCES Drink(id),
+  product_name VARCHAR(30),
+  FOREIGN KEY (product_name) REFERENCES PizzaProduct(name)
 );
