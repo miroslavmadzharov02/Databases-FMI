@@ -128,8 +128,8 @@ public static void main(String[] args)
      	  + " VALUES ('" + nameDrink + "','" + weightDrink + "','" + priceDrink + "')";
 	db2Obj.insert(stmnt);
 
-	String pizzaNameToDelete = "Olives";
-	stmnt = "DELETE FROM FN3MI0700050.PIZZAPRODUCT WHERE NAME = " + "'" + pizzaNameToDelete + "' ";
+	String orderPhoneNumberToDelete = "+1 345-6789";
+	stmnt = "DELETE FROM FN3MI0700050.ORDER WHERE CLIENT_PHONE_NUMBER = " + "'" + orderPhoneNumberToDelete + "' ";
 	db2Obj.delete(stmnt);
 	
 	db2Obj.closeConnection();
